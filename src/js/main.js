@@ -219,79 +219,77 @@ render(
 )
 
 
-
-
-const dbName = "the_name";
-// データベースを開く
-const request = window.indexedDB.open(dbName, 4);
-
-request.addEventListener('error', (/*event*/) => {
-  //console.error(event);
-  //console.error(`Database error:${event.target.errorCode}`);
-});
-
-request.addEventListener('success', (event) => {
-  //console.log('success');
-  
-  const db = event.target.result;
-  //console.log(db);
-
-  const transaction = db.transaction(["customers"]);
-  const objectStore = transaction.objectStore("customers");
-  const request2 = objectStore.get("444-44-4444");
-
-  request2.onerror = (/*event*/) => {
-    //console.error(event);
-  };
-  request2.onsuccess = (/*evnet*/) => {
-    const data = request2.result;
-    //console.log(`Name for SSN 444-44-4444 is ${data.name} (age: ${data.age})`);
-
-    // 値を更新する
-    const objectStore2 = db.transaction(["customers"], "readwrite").objectStore("customers");
-
-    data.age = 50;
-    const requestUpdate = objectStore2.put(data);
-    requestUpdate.onerror = (/*event*/) => {
-      //console.log(event);
-    };
-    requestUpdate.onsuccess = (/*event*/) => {
-      const request3 = objectStore2.get("444-44-4444");
-
-      request3.onerror = (/*evnet*/) => {
-        //console.log(event);
-      };
-      request3.onsuccess = (/*evnet*/) => {
-        //const data = request2.result;
-        //console.log(`Name for SSN 444-44-4444 is ${data.name} (age: ${data.age})`);
-      };
-    };
-  }
-
-});
-
-request.addEventListener('upgradeneeded', (event) => {
-
-  // 顧客データがどのようなものかを示します
-  const customerData = [
-    { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com" },
-    { ssn: "555-55-5555", name: "Donna", age: 32, email: "donna@home.org" }
-  ];
-
-
-  //console.log('upgradeneeded');
-  const db = event.target.result;
-  if (!db.objectStoreNames.contains('customers')) {
-    const objectStore = db.createObjectStore("customers", { keyPath: "ssn" });
-
-    objectStore.createIndex("name", "name", { unique: false });
-    objectStore.createIndex("email", "email", { unique: true });
-
-    objectStore.transaction.oncomplete = (/*event*/) => {
-      const customerObjectStore = db.transaction("customers", "readwrite").objectStore("customers");
-      for (const i in customerData) {
-        customerObjectStore.add(customerData[i]);
-      }
-    };
-  }
-});
+//const dbName = "the_name";
+//// データベースを開く
+//const request = window.indexedDB.open(dbName, 4);
+//
+//request.addEventListener('error', (/*event*/) => {
+//  //console.error(event);
+//  //console.error(`Database error:${event.target.errorCode}`);
+//});
+//
+//request.addEventListener('success', (event) => {
+//  //console.log('success');
+//  
+//  const db = event.target.result;
+//  //console.log(db);
+//
+//  const transaction = db.transaction(["customers"]);
+//  const objectStore = transaction.objectStore("customers");
+//  const request2 = objectStore.get("444-44-4444");
+//
+//  request2.onerror = (/*event*/) => {
+//    //console.error(event);
+//  };
+//  request2.onsuccess = (/*evnet*/) => {
+//    const data = request2.result;
+//    //console.log(`Name for SSN 444-44-4444 is ${data.name} (age: ${data.age})`);
+//
+//    // 値を更新する
+//    const objectStore2 = db.transaction(["customers"], "readwrite").objectStore("customers");
+//
+//    data.age = 50;
+//    const requestUpdate = objectStore2.put(data);
+//    requestUpdate.onerror = (/*event*/) => {
+//      //console.log(event);
+//    };
+//    requestUpdate.onsuccess = (/*event*/) => {
+//      const request3 = objectStore2.get("444-44-4444");
+//
+//      request3.onerror = (/*evnet*/) => {
+//        //console.log(event);
+//      };
+//      request3.onsuccess = (/*evnet*/) => {
+//        //const data = request2.result;
+//        //console.log(`Name for SSN 444-44-4444 is ${data.name} (age: ${data.age})`);
+//      };
+//    };
+//  }
+//
+//});
+//
+//request.addEventListener('upgradeneeded', (event) => {
+//
+//  // 顧客データがどのようなものかを示します
+//  const customerData = [
+//    { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com" },
+//    { ssn: "555-55-5555", name: "Donna", age: 32, email: "donna@home.org" }
+//  ];
+//
+//
+//  //console.log('upgradeneeded');
+//  const db = event.target.result;
+//  if (!db.objectStoreNames.contains('customers')) {
+//    const objectStore = db.createObjectStore("customers", { keyPath: "ssn" });
+//
+//    objectStore.createIndex("name", "name", { unique: false });
+//    objectStore.createIndex("email", "email", { unique: true });
+//
+//    objectStore.transaction.oncomplete = (/*event*/) => {
+//      const customerObjectStore = db.transaction("customers", "readwrite").objectStore("customers");
+//      for (const i in customerData) {
+//        customerObjectStore.add(customerData[i]);
+//      }
+//    };
+//  }
+//});
